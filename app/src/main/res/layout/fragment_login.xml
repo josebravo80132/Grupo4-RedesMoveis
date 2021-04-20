@@ -1,0 +1,103 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameContainerS"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/cardview_dark_background"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context="com.example.grupo4_redesmoveis.ui.login.LoginFragment">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="419dp"
+        android:layout_height="786dp"
+        android:background="@drawable/runns"
+        android:orientation="vertical">
+
+
+        <Button
+            android:id="@+id/registarComEmail_btn"
+            android:layout_width="298dp"
+            android:layout_height="34dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/border"
+            android:drawableStart="@drawable/email_icon"
+            android:drawableLeft="@drawable/email_icon"
+            android:drawableTint="@color/white"
+            android:paddingLeft="10dp"
+            android:text="@string/registar_se_com_e_mail"
+            android:textAllCaps="false"
+            android:textColor="#FAF8F8"
+
+            app:backgroundTint="@color/com_smart_login_code"
+            app:layout_constraintBottom_toTopOf="@+id/login_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.38"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <EditText
+            android:id="@+id/edText_username"
+            android:layout_width="300dp"
+            android:layout_height="40dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/rounded_edit_text"
+            android:gravity="center"
+            android:hint="Email Address"
+            android:inputType="text"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#FFFFFF"
+            app:layout_constraintBottom_toTopOf="@+id/edText_password"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.369"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <EditText
+            android:id="@+id/edText_password"
+            android:layout_width="300dp"
+            android:layout_height="40dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/rounded_edit_text"
+            android:gravity="center"
+            android:inputType="textPassword"
+            android:text="123456789"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#FFFFFF"
+            app:layout_constraintBottom_toTopOf="@+id/iniciarSessao_btn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.386"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/iniciarSessao_btn"
+            android:layout_width="300dp"
+            android:layout_height="40dp"
+            android:layout_marginBottom="48dp"
+            android:background="@drawable/rounded_button"
+            android:text="@string/iniciar_sess_o"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF"
+            app:backgroundTint="#EA3B3B"
+            app:layout_constraintBottom_toTopOf="@+id/registarComEmail_btn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.386"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <com.facebook.login.widget.LoginButton
+            android:id="@+id/login_button"
+            android:layout_width="300dp"
+            android:layout_height="40dp"
+            android:backgroundTint="@color/com_smart_login_code"
+            android:layout_marginBottom="100dp"
+            android:radius="30dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.386"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</FrameLayout>
