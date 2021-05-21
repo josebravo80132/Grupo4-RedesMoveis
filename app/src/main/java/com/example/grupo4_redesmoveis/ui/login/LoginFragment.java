@@ -20,6 +20,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.grupo4_redesmoveis.MapsActivity;
 import com.example.grupo4_redesmoveis.R;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -43,7 +44,7 @@ public class LoginFragment extends Fragment {
     private EditText edText_username, edText_password;
     private CallbackManager callbackManager;
     private ViewFlipper viewFlipper;
-    private boolean loginValidation;
+    public boolean loginValidation;
     private String fb_name, fb_mail;
 
     public LoginFragment() {
@@ -83,7 +84,9 @@ public class LoginFragment extends Fragment {
                 getFacebookInfo(accessToken);
                 if(loginValidation){
                     /** Atividade seguinte -- **/
-
+                    //Toast.makeText(getContext(), "Bem vindo "+usr+"!", Toast.LENGTH_LONG).show();
+                    Intent i = new Intent(getContext(), MapsActivity.class);
+                    startActivity(i);
 
                 }else{  /** 1º login pelo facebook **/
                     Bundle bundle = new Bundle();
@@ -93,13 +96,13 @@ public class LoginFragment extends Fragment {
                     System.out.println(fb_name+"\n "+fb_mail);
 
 
-                    /*Fragment fragment=new RegisterFragment();
+                    Fragment fragment=new RegisterFragment();
                     fragment.setArguments(bundle);
                     FragmentManager fm = getFragmentManager();
                     FragmentTransaction ft = fm.beginTransaction();
                     ft.replace(R.id.frameContainerS, fragment);
                     ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-                    ft.commit();*/
+                    ft.commit();
                 }
 
 
@@ -135,13 +138,14 @@ public class LoginFragment extends Fragment {
                 edText_password = view.findViewById(R.id.edText_password);
                 String usr = edText_username.getText().toString();
                 String pwd = edText_password.getText().toString();
+                loginValidation = getLoginResult(usr, pwd, 0);
+                System.out.println(loginValidation);
 
-                if( !getLoginResult(usr, pwd, 0) ){
-                    //Toast.makeText(getContext(), "Dados inválidos!", Toast.LENGTH_LONG).show();
-                    edText_username.setHint("Username or Email");
-                    edText_password.setText("");
+                if( !loginValidation ){
+
                 }else{
                     /** ATIVIDADE SEGUINTE **/
+
                 }
 
             }
@@ -191,9 +195,9 @@ public class LoginFragment extends Fragment {
 
     /** VALIDATE LOGIN **/
     public boolean getLoginResult(String username, String password, int method){    // 0 - loginButton , 1 - facebook ....
-        RequestQueue queue = Volley.newRequestQueue(Objects.requireNonNull(getContext()));
+        RequestQueue queue = Volley.newRequestQueue(requireContext());
         String urlUsers = "https://database420-a765.restdb.io/rest/utilizadores";
-        loginValidation = false;
+        //loginValidation = false;
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, urlUsers, null, new Response.Listener<JSONArray>() {
             @Override
@@ -202,18 +206,25 @@ public class LoginFragment extends Fragment {
                     String usernameAux, emailAux, pwdAux;
                     for (int i = 0; i < response.length(); i++) {
                         JSONObject data = response.getJSONObject(i);
-                        usernameAux = data.getString("username");   emailAux = data.getString("email");  pwdAux = data.getString("password");
+                        System.out.println(data);
+                        usernameAux = data.getString("username");
+                        emailAux = data.getString("email");
+                        pwdAux = data.getString("password");
 
-                        if( method == 0 && ( (username.equals(usernameAux) || username.equals(emailAux)) && password.equals(pwdAux) ) ){
-                            loginValidation = true;
-                            Toast.makeText(getContext(), "Bem vindo "+usernameAux+"!", Toast.LENGTH_LONG).show();
+                        if( (username.equals(usernameAux) && password.equals(pwdAux)) || ( method == 1 && username.equals(emailAux) )){
+                            loginValidation = true;     Toast.makeText(getContext(), "Bem vindo "+username+"!", Toast.LENGTH_LONG).show();
+                            Intent it = new Intent(getContext(), MapsActivity.class);
+                            startActivity(it);
                             break;
                         }
-                        else if( method == 1 && username.equals(emailAux)){     /**  FacebookUser registado **/
-                            loginValidation = true;
-                            Toast.makeText(getContext(), "Bem vindo "+usernameAux+"!", Toast.LENGTH_LONG).show();
-                            break;
+                        else {
+                            loginValidation = false;
                         }
+                    }
+                    if( !loginValidation ){
+                        Toast.makeText(getContext(), "Dados inválidos!", Toast.LENGTH_LONG).show();
+                        edText_username.setHint("Username or Email");
+                        edText_password.setText("");
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
